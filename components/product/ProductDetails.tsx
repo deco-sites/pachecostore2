@@ -75,11 +75,6 @@ function ProductInfo({ page }: { page: ProductDetailsPage }) {
       />
       {/* Code and name */}
       <div class="mt-4 sm:mt-8">
-        <div>
-          <span class="text-sm text-base-300">
-            Cod. {gtin}
-          </span>
-        </div>
         <h1>
           <span class="font-medium text-xl">{name}</span>
         </h1>
@@ -87,20 +82,10 @@ function ProductInfo({ page }: { page: ProductDetailsPage }) {
       {/* Prices */}
       <div class="mt-4">
         <div class="flex flex-row gap-2 items-center">
-          <span class="line-through text-base-300 text-xs">
-            {formatPrice(listPrice, offers!.priceCurrency!)}
-          </span>
-          <span class="font-medium text-xl text-secondary">
+          <span class="font-bold text-xl text-primary bold">
             {formatPrice(price, offers!.priceCurrency!)}
           </span>
         </div>
-        <span class="text-sm text-base-300">
-          {installments}
-        </span>
-      </div>
-      {/* Sku Selector */}
-      <div class="mt-4 sm:mt-6">
-        <ProductSelector product={product} />
       </div>
       {/* Add to Cart and Favorites button */}
       <div class="mt-4 sm:mt-10 flex flex-col gap-2">
@@ -117,33 +102,19 @@ function ProductInfo({ page }: { page: ProductDetailsPage }) {
                   productGroupId={product.isVariantOf?.productGroupID ?? ""}
                 />
               )}
-              <WishlistButton
-                variant="full"
-                productGroupID={isVariantOf?.productGroupID}
-                productID={productID}
-              />
             </>
           )
           : <OutOfStock productID={productID} />}
-      </div>
-      {/* Shipping Simulation */}
-      <div class="mt-8">
-        <ShippingSimulation
-          items={[{
-            id: Number(product.sku),
-            quantity: 1,
-            seller: seller ?? "1",
-          }]}
-        />
       </div>
       {/* Description card */}
       <div class="mt-4 sm:mt-6">
         <span class="text-sm">
           {description && (
-            <details>
-              <summary class="cursor-pointer">Descrição</summary>
-              <div class="ml-2 mt-2">{description}</div>
-            </details>
+              <div>
+                <p class="cursor-pointer">Descrição do Produto</p>
+                <p class="mt-2">{description}</p>
+              </div>
+            
           )}
         </span>
       </div>
@@ -233,7 +204,7 @@ function Details({
   page,
   variant,
 }: { page: ProductDetailsPage; variant: Variant }) {
-  const { product } = page;
+  const { product, breadcrumbList } = page;
   const id = `product-image-gallery:${useId()}`;
   const images = useStableImages(product);
 
@@ -297,7 +268,7 @@ function Details({
               />
             </div>
           </div>
-
+          
           {/* Dots */}
           <ul class="flex gap-2 sm:justify-start overflow-auto px-4 sm:px-0 sm:flex-col sm:col-start-1 sm:col-span-1 sm:row-start-1">
             {images.map((img, index) => (
@@ -333,9 +304,11 @@ function Details({
    * reached causing a scrollbar to be rendered.
    */
   return (
+    
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-[50vw_25vw] sm:grid-rows-1 sm:justify-center">
       {/* Image slider */}
       <ul class="carousel carousel-center gap-6">
+        teste
         {[images[0], images[1] ?? images[0]].map((img, index) => (
           <li class="carousel-item min-w-[100vw] sm:min-w-[24vw]">
             <Image
